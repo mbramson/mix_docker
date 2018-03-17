@@ -177,7 +177,10 @@ defmodule MixDocker do
   end
 
   defp system!(cmd, args) do
-    {_, 0} = system(cmd, args)
+    case system(cmd, args) do
+      {_, 0} -> :ok
+      _ -> raise "Non-zero exit status running command: #{cmd} with args: #{args}"
+    end
   end
 
   defp app_name do
